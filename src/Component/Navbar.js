@@ -58,6 +58,7 @@ const Navbar = (props) => {
             </>
             :
             <>
+            <Link to="/token" className={styles["redirectLink"]}><Button color="inherit">Tokenization page</Button></Link>
             <Link to="/signup" className={styles["redirectLink"]}><Button color="inherit">Sign Up</Button></Link>
             <Link to="/login" className={styles["redirectLink"]}><Button color="inherit">Login</Button></Link>
             </>

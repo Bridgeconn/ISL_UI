@@ -10,6 +10,7 @@ import {
   Route,
   Switch
 } from "react-router-dom"
+import TokenizationPage from './Component/TokenizationPage';
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
     <div style={{margin: "80px 10px"}}>
       <Route exact path="/">
         <Home />
+      </Route>
+      <Route exact path="/token">
+        <TokenizationPage/>
       </Route>
       <Route exact path="/signup">
         <SignUp loginStatus={setLogin}/>
