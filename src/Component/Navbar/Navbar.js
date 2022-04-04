@@ -8,8 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 // import Link from '@material-ui/core/Link';
 import {Link,useHistory} from 'react-router-dom'
-import styles from "../Stylesheet/navbar.module.css"
+import styles from "../../Stylesheet/navbar.module.css"
 import axios from 'axios';
+import Dropdown from "./Dropdown";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,19 +47,20 @@ const Navbar = (props) => {
         <Toolbar>
           <Typography variant="h6" className={classes.title} align="left">
         <Link to="/" className={styles["redirectLink"]}>
-            Pair Bytes
+        Autographa-SignLanguage
           </Link>
           </Typography>
           {
             props.login?
             <>
+              <Dropdown />
+              <Link to="/token" className={styles["redirectLink"]}><Button color="inherit">Tokenization page</Button></Link>
             <Avatar>
             </Avatar>
               <Button color="inherit" onClick={()=>{logout()}}>Log Out</Button>
             </>
             :
             <>
-            <Link to="/token" className={styles["redirectLink"]}><Button color="inherit">Tokenization page</Button></Link>
             <Link to="/signup" className={styles["redirectLink"]}><Button color="inherit">Sign Up</Button></Link>
             <Link to="/login" className={styles["redirectLink"]}><Button color="inherit">Login</Button></Link>
             </>

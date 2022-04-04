@@ -1,16 +1,18 @@
-import Navbar from './Component/Navbar';
+import Navbar from './Component/Navbar/Navbar';
 import Home from './Component/Home';
-import SignUp from './Component/SignUp';
-import Login from './Component/Login';
+import SignUp from './Component/Login/SignUp';
+import Login from './Component/Login/Login';
 import './App.css';
-import {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react';
+import CreateProject from "./Component/Project/CreateProject";
+import ViewProject from "./Component/Project/ViewProject";
 
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from "react-router-dom"
-import TokenizationPage from './Component/TokenizationPage';
+import TokenizationPage from './Component/Tokenization/TokenizationPage';
 
 
 function App() {
@@ -36,6 +38,12 @@ function App() {
       </Route>
       <Route exact path="/login" loginStatus={setLogin}>
         <Login loginStatus={setLogin}/>
+      </Route>
+      <Route exact path="/create-project">
+        <CreateProject />
+      </Route>
+      <Route exact path="/view-project">
+        <ViewProject />
       </Route>
     </div>
     </Switch>
