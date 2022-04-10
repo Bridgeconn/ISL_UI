@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import Pagination from './Pagination';
 //import Chip from '@mui/material/Chip';
  import ReferenceSection from './ReferenceSection';
+ import RCL from "./RCL"
 // import Tokenization from '../Tokenization';
 // import SourceText from '../SourceText';
 // import Pagination from '../Pagination';
@@ -92,7 +93,7 @@ const TokenizationPage = () => {
        
         <ReferenceSection />
         </div>
-        <Divider component="li"  />
+        {/* <Divider component="li"  />
         <li>
           <Typography
             className={classes.dividerFullWidth}
@@ -102,12 +103,12 @@ const TokenizationPage = () => {
           >
             <b>Sign Pane</b>
           </Typography>
-        </li>
+        </li> */}
        
-        <div className="sign-div" style={{height:'200px'}}>
+        {/* <div className="sign-div" style={{height:'200px'}}>
         
-        </div>
-        <Divider component="li" />
+        </div> */}
+        {/* <Divider component="li" />
         <li>
           <Typography
             className={classes.dividerFullWidth}
@@ -117,10 +118,10 @@ const TokenizationPage = () => {
           >
             <b>Source Pane</b>
           </Typography>
-        </li>
-       
+        </li> */}
+       <Divider component="li" />
         <div className="source-div" style={{height:'150px'}}>
-     
+        <RCL />
         </div>
        
       </List>
