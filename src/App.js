@@ -9,6 +9,7 @@ import ViewProject from "./Component/Project/ViewProject";
 import RCL from "./Component/Tokenization/RCL"
 import AlignmentEditor from './Component/Alignment-Editor/AlignmentEditor';
 
+
 import {
   BrowserRouter as Router,
   Route,
