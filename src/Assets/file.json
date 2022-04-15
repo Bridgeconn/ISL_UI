@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "cf1c7cce-d6b2-4dad-a56a-ff4d688643ab",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ISL",
+			"item": [
+				{
+					"name": "https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100008&sentence_id_list=57001001&&sentence_id_list=57001002",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Vcuk3leGK7NRTGxCBOSWP3711CWSFHCF",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "app",
+								"value": "Autographa",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100008&sentence_id_list=57001001&&sentence_id_list=57001002",
+							"protocol": "https",
+							"host": [
+								"api",
+								"vachanengine",
+								"org"
+							],
+							"path": [
+								"v2",
+								"autographa",
+								"project",
+								"sentences"
+							],
+							"query": [
+								{
+									"key": "project_id",
+									"value": "100008"
+								},
+								{
+									"key": "books",
+									"value": "tit",
+									"disabled": true
+								},
+								{
+									"key": "sentence_id_list",
+									"value": "57001001"
+								},
+								{
+									"key": "sentence_id_range",
+									"value": "57001000",
+									"disabled": true
+								},
+								{
+									"key": "sentence_id_range",
+									"value": "57001999",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null
+								},
+								{
+									"key": "with_draft",
+									"value": "false\n",
+									"disabled": true
+								},
+								{
+									"key": "app",
+									"value": "Autographa",
+									"disabled": true
+								},
+								{
+									"key": "sentence_id_list",
+									"value": "57001002"
+								},
+								{
+									"key": "sentence_id_list",
+									"value": "57001003",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=57001001&use_translation_memory=true&include_phrases=true&include_stopwords=false",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Vcuk3leGK7NRTGxCBOSWP3711CWSFHCF",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "app",
+								"value": "Autographa",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=57001001&use_translation_memory=true&include_phrases=true&include_stopwords=false",
+							"protocol": "https",
+							"host": [
+								"api",
+								"vachanengine",
+								"org"
+							],
+							"path": [
+								"v2",
+								"autographa",
+								"project",
+								"tokens"
+							],
+							"query": [
+								{
+									"key": "project_id",
+									"value": "100008"
+								},
+								{
+									"key": "sentence_id_list",
+									"value": "57001001"
+								},
+								{
+									"key": "sentence_id_list",
+									"value": "57001002",
+									"disabled": true
+								},
+								{
+									"key": "sentence_id_list",
+									"value": "57001003",
+									"disabled": true
+								},
+								{
+									"key": "use_translation_memory",
+									"value": "true"
+								},
+								{
+									"key": "include_phrases",
+									"value": "true"
+								},
+								{
+									"key": "include_stopwords",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&books=tit&sentence_id_list=57001001&app=Autographa",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "FuRWvzaNqRNum2JXvquEkBbu0OuuSmkK",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "app",
+						"value": "Autographa",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&books=tit&sentence_id_list=57001001&app=Autographa",
+					"protocol": "https",
+					"host": [
+						"api",
+						"vachanengine",
+						"org"
+					],
+					"path": [
+						"v2",
+						"autographa",
+						"project",
+						"tokens"
+					],
+					"query": [
+						{
+							"key": "project_id",
+							"value": "100008"
+						},
+						{
+							"key": "books",
+							"value": "tit"
+						},
+						{
+							"key": "sentence_id_list",
+							"value": "57001001"
+						},
+						{
+							"key": "sentence_id_range",
+							"value": "57001002",
+							"disabled": true
+						},
+						{
+							"key": "use_translation_memory",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "include_phrases",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "include_stopwords",
+							"value": "false\n",
+							"disabled": true
+						},
+						{
+							"key": "app",
+							"value": "Autographa"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

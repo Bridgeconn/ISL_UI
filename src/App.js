@@ -6,7 +6,7 @@ import './App.css';
 import {useEffect, useState} from 'react';
 import CreateProject from "./Component/Project/CreateProject";
 import ViewProject from "./Component/Project/ViewProject";
-
+import RCL from "./Component/Tokenization/RCL"
 
 import {
   BrowserRouter as Router,
@@ -45,6 +45,9 @@ function App() {
       </Route>
       <Route exact path="/view-project">
         <ViewProject />
+      </Route>
+      <Route exact path="/rcl">
+        <RCL />
       </Route>
     </div>
     </Switch>
