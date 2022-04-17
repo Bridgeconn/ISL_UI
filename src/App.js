@@ -7,6 +7,7 @@ import {useEffect, useState} from 'react';
 import CreateProject from "./Component/Project/CreateProject";
 import ViewProject from "./Component/Project/ViewProject";
 import RCL from "./Component/Tokenization/RCL"
+import AlignmentEditor from './Component/Tokenization/AlignmentEditor';
 
 import {
   BrowserRouter as Router,
@@ -48,6 +49,9 @@ function App() {
       </Route>
       <Route exact path="/rcl">
         <RCL />
+      </Route>
+      <Route exact path="/alignment-editor">
+        <AlignmentEditor />
       </Route>
     </div>
     </Switch>

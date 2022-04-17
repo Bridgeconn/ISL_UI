@@ -26,7 +26,7 @@ const RCL = () =>{
       )
     }))}
   targetSegments={[
-    { text: 'For' },
+    { text: 'For', offset: "0-1" },
     { text: 'if' },
     { text: 'anyone' },
     { text: 'is' },
