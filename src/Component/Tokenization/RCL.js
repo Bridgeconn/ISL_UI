@@ -1,20 +1,34 @@
 import react,{useEffect,useState} from "react"
 import { AlignmentEditor,AlignmentProvider } from "alignment-editor-rcl";
 import axios from "axios";
-const RCL = () =>{
+import {BIBLES_ABBRV_INDEX} from '../Tokenization/BCVDropdownComponents/BooksOfTheBible';
+
+const RCL = (props) =>{
   const [token,setToken] = useState([])
+  //related to BCV calues
+  const bookName = props.bookid;
+    const chapter = props.chapter.padStart(3, '0');
+    const verse = props.verse.padStart(3, '0');;
+    const BookCode=BIBLES_ABBRV_INDEX[bookName];
+    const sentenceId=parseInt((BookCode+chapter+verse));
+    console.log(sentenceId)
+  
   useEffect(()=>{
-    axios.get("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=57001001&use_translation_memory=true&include_phrases=true&include_stopwords=false",{
+    console.log(sentenceId);
+    axios.get(`https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=${sentenceId}&use_translation_memory=true&include_phrases=true&include_stopwords=false`,{
       headers:{
         "app": "Autographa",
         "Authorization": `Bearer ${localStorage.getItem('token')}`
       }
     }).then((item)=>{
+
+      console.log(item.data);
+
       setToken(item.data);
     }).catch((error)=>{
       console.log(error);
     })
-  },[])
+  },[sentenceId])
     return(
       <div>
         <AlignmentProvider style={{height: "1500px"}}>

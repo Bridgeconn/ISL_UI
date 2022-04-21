@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import Pagination from './Pagination';
+// import Pagination from './Pagination';
 //import Chip from '@mui/material/Chip';
  import ReferenceSection from './ReferenceSection';
  import RCL from "./RCL"
@@ -54,6 +54,17 @@ import Pagination from './Pagination';
 //      );
     
 // }
+
+import  {useState, useEffect} from 'react';
+// import Card from '@material-ui/core/Card';
+// import CardActions from '@material-ui/core/CardActions';
+// import CardContent from '@material-ui/core/CardContent';
+//import Typography from '@material-ui/core/Typography';
+// import Button from '@material-ui/core/Button';
+// import TextField from "@material-ui/core/TextField";
+import useBibleReference from '../Tokenization/BCVDropdownComponents/useBibleReference';
+import BibleReference from '../Tokenization/BCVDropdownComponents/BibleReference';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -70,13 +81,62 @@ const useStyles = makeStyles((theme) => ({
 
 const TokenizationPage = () => {
     const classes = useStyles();
+    //BCV dropdown related code
+    // const supportedBooks = null; // if empty array or null then all books available
+    const supportedBooks = [ 'tit']; // if non-empty array then only these books are shown
+    const initialBook = "luk";
+    const initialChapter = "";
+    const initialVerse = "";
+    // select colors
+    // const grey = "#aaa69d"; // a shade of grey
+    // const blue = "#00B0FF"; // a shade of blue
+    // const white = "#FFFFFF";
+    // const black = "#000000";
+    const style = {}; // use defaults
+    //const style = { color: white, background: grey }; // set forground and background colors
+   
+    function onChange(bookId, chapter, verse) {
+        console.log(`\n### Reference changed to ${bookId} - ${chapter}:${verse}\n\n`);
+      }
+    
+      
+      const initial =
+        {
+          initialBook,
+          initialChapter,
+          initialVerse,
+          onChange
+        };
+      
+      const {state, actions} = useBibleReference(initial);
+      
+      useEffect(() => {
+        actions.applyBooksFilter(supportedBooks);
+      }, []); // just apply the first time in this demo
+//ends here
 
     return (
       <List className={classes.root}>
         
-        <div  className="bible-pagination" style={{display:'flex'}}>
+        {/* <div  className="bible-pagination" style={{display:'flex'}}>
             <Pagination />
-        </div>
+        </div> */}
+
+        {/* including  pagination code inside the tokenization page.
+        begins-
+        */}
+
+      
+  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
+    <BibleReference
+      status={state}
+      actions={actions}
+      style={style}
+    />
+  </div>
+
+
+        {/* ends */}
         <Divider component="li" />
         <li>
           <Typography
@@ -89,7 +149,7 @@ const TokenizationPage = () => {
           </Typography>
         </li>
         {/* <div className="Resources-div" style={{ overflowY: 'auto', height: '400px'}} contain='none'> */}
-        <div className="Resources-div" sisplay='flex' style={{minHeight:'300px',justifyContent:'flex-start'}} >
+        <div className="Resources-div" sisplay='flex' style={{minHeight:'10px',justifyContent:'flex-start'}} >
        
         <ReferenceSection />
         </div>
@@ -121,7 +181,7 @@ const TokenizationPage = () => {
         </li> */}
        <Divider component="li" />
         <div className="source-div" style={{height:'150px'}}>
-        <RCL />
+        <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
         </div>
        
       </List>
