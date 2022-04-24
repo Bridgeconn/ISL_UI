@@ -12,7 +12,6 @@ const RCL = () =>{
     }).then((item)=>{
       setToken(item.data);
     }).catch((error)=>{
-      console.log(error);
     })
   },[])
     return(
@@ -56,7 +55,6 @@ const RCL = () =>{
     { text: 'mirror' },
   ]}
   stateUpdatedHook={(a) => {
-    console.log('STATE UPDATED', a);
   }}
 />
 </AlignmentProvider>

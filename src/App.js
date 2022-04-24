@@ -7,7 +7,7 @@ import {useEffect, useState} from 'react';
 import CreateProject from "./Component/Project/CreateProject";
 import ViewProject from "./Component/Project/ViewProject";
 import RCL from "./Component/Tokenization/RCL"
-import AlignmentEditor from './Component/Tokenization/AlignmentEditor';
+import AlignmentEditor from './Component/Alignment-Editor/AlignmentEditor';
 
 import {
   BrowserRouter as Router,
@@ -21,7 +21,6 @@ function App() {
   const [login,setLogin] = useState()
   useEffect(()=>{
     setLogin(localStorage.getItem('login'))
-    console.log(login)
   },[login])
   return (
     <div className="App">
@@ -51,7 +50,7 @@ function App() {
         <RCL />
       </Route>
       <Route exact path="/alignment-editor">
-        <AlignmentEditor />
+        <AlignmentEditor setlogin={setLogin}/>
       </Route>
     </div>
     </Switch>

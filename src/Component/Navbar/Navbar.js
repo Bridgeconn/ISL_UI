@@ -36,11 +36,8 @@ const Navbar = (props) => {
       localStorage.removeItem('login')
       history.push("/")
     }).catch((err)=>{
-      console.log("Error occured, Please try again")
     })
   }
-  console.log(props.login)
-
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
