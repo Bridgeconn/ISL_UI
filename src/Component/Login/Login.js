@@ -12,7 +12,6 @@ const useStyle = makeStyles({
 });
 
 const Login = (props) => {
-    console.log(props);
   const classes = useStyle();
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -37,20 +36,17 @@ const Login = (props) => {
       setPending(false)
     }else{
         const url = "https://api.vachanengine.org/v2/user/login?user_email="+email+"&password="+password
-        console.log(url)
           axios.get(url,{
         headers:{
           'content-type': 'application/json'
         }
       }).then((item)=>{
-        console.log(item.data.token);
         alert("Login Succesful")
         history.push("/")
         localStorage.setItem('login',true);
         localStorage.setItem('token',item.data.token);
         props.loginStatus(true)
       }).catch((error)=>{
-        console.log(error.response.status);
         if(error.response.status===401)
         {
           alert("Invalid Credential")
