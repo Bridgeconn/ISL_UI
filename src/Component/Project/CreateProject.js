@@ -65,7 +65,6 @@ const useStyle = makeStyles({
             alert("Test already exist")
             setPending(false)
           }else{
-            // console.log(error)
             setPending(false)
             alert("Error Caused, Please try again")
           }
