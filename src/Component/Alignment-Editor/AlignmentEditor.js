@@ -114,13 +114,23 @@ const AlignmentEditor = (props) => {
                                 document.getElementById(item).classList.add("active-token")
                             })
                             link[i].target.map(item => {
-                                targetArr = [
-                                    ...targetArr, {
-                                        "id": item,
-                                        "name": document.getElementById(item).innerHTML
-                                    }
-                                ]
-                                console.log(sourceArr,targetArr)
+                                if(document.getElementById(item).tagName==="SELECT")
+                                {
+                                    targetArr = [
+                                        ...targetArr, {
+                                            "id": item,
+                                            "name": document.getElementById(item).value
+                                        }
+                                    ]
+                                }else{
+                                    targetArr = [
+                                        ...targetArr, {
+                                            "id": item,
+                                            "name": document.getElementById(item).innerHTML
+                                        }
+                                    ]
+                                }
+                                console.log(sourceArr, targetArr)
                                 setSource(sourceArr)
                                 setTarget(targetArr)
                                 document.getElementById(item).classList.add("active-token")
@@ -160,8 +170,10 @@ const AlignmentEditor = (props) => {
         }
     }
     const addTarget = (e) => {
+        console.log(e)
         let id = e.target.id;
         let name = e.target.innerHTML;
+        let type = e.target.nodeName
         let selectedElement = document.getElementById(id).classList
         if (!selectedElement.contains("not-allowed-token")) {
             if (selectedElement.contains("set-token")) {
@@ -174,6 +186,7 @@ const AlignmentEditor = (props) => {
                     for (let j = 0; j < method.length; j++) {
                         if (method[j] === id) {
                             link[i].source.map(item => {
+                                console.log(item)
                                 sourceArr = [
                                     ...sourceArr, {
                                         "id": item,
@@ -183,12 +196,22 @@ const AlignmentEditor = (props) => {
                                 document.getElementById(item).classList.add("active-token")
                             })
                             link[i].target.map(item => {
-                                targetArr = [
-                                    ...targetArr, {
-                                        "id": item,
-                                        "name": document.getElementById(item).innerHTML
-                                    }
-                                ]
+                                console.log(item)
+                                if(type==="SELECT"){
+                                    targetArr = [
+                                        ...targetArr, {
+                                            "id": item,
+                                            "name": document.getElementById(item).value
+                                        }
+                                    ]
+                                }else{
+                                    targetArr = [
+                                        ...targetArr, {
+                                            "id": item,
+                                            "name": document.getElementById(item).innerHTML
+                                        }
+                                    ]
+                                }
                                 setSource(sourceArr)
                                 setTarget(targetArr)
                                 document.getElementById(item).classList.add("active-token")
@@ -226,7 +249,7 @@ const AlignmentEditor = (props) => {
         }
     }
     const linkHandler = () => {
-        console.log(source,target)
+        console.log(source, target)
         let token = ""
         let occur = ""
         let translate = ""
@@ -439,13 +462,22 @@ const AlignmentEditor = (props) => {
                                                 )
                                             } else {
                                                 return (
-                                                    <select className={
+                                                    <select 
+                                                    defaultValue={item.translation[0]}
+                                                    className={
                                                         item.class
-                                                    }>
-                                                         {
-                                                            item.translation.map((item,index) => {
+                                                    }
+                                                        id={
+                                                            `target${index}`
+                                                        }
+                                                        onChange={
+                                                            (e) => {
+                                                                addTarget(e, index)
+                                                            }}>
+                                                        {
+                                                            item.translation.map((item, index) => {
                                                                 return (
-                                                                    <option value={10} key={index}>{item}</option>
+                                                                    <option value={item} key={index}>{item}</option>
                                                                 )
                                                             })
                                                         }
