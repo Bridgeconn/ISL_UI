@@ -8,7 +8,8 @@ import List from '@material-ui/core/List';
 // import Pagination from './Pagination';
 //import Chip from '@mui/material/Chip';
  import ReferenceSection from './ReferenceSection';
- import RCL from "./RCL"
+ import RCL from "./RCL";
+
 // import Tokenization from '../Tokenization';
 // import SourceText from '../SourceText';
 // import Pagination from '../Pagination';
@@ -84,16 +85,16 @@ const TokenizationPage = () => {
     //BCV dropdown related code
     // const supportedBooks = null; // if empty array or null then all books available
     const supportedBooks = [ 'tit']; // if non-empty array then only these books are shown
-    const initialBook = "luk";
+    const initialBook = "";
     const initialChapter = "";
     const initialVerse = "";
     // select colors
-    // const grey = "#aaa69d"; // a shade of grey
-    // const blue = "#00B0FF"; // a shade of blue
-    // const white = "#FFFFFF";
-    // const black = "#000000";
-    const style = {}; // use defaults
-    //const style = { color: white, background: grey }; // set forground and background colors
+     //const grey = ""; // a shade of grey
+    const blue = "#576574"; // a shade of blue
+     const white = "#FFFFFF";
+     //const black = "#000000";
+    // const style = {}; // use defaults
+    const style = { color: white, background: blue }; // set forground and background colors
    
     function onChange(bookId, chapter, verse) {
         console.log(`\n### Reference changed to ${bookId} - ${chapter}:${verse}\n\n`);
@@ -126,8 +127,8 @@ const TokenizationPage = () => {
         begins-
         */}
 
-      
-  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'left'}}>
+      <div style={{}}>
+  <div style={{display: 'flex', alignItems: 'center', marginTop:'-20px',height:'70px',width:'100%',justifyContent: 'left',backgroundImage:''}}>
     <BibleReference
       status={state}
       actions={actions}
@@ -149,9 +150,9 @@ const TokenizationPage = () => {
           </Typography>
         </li>
         {/* <div className="Resources-div" style={{ overflowY: 'auto', height: '400px'}} contain='none'> */}
-        <div className="Resources-div" sisplay='flex' style={{minHeight:'10px',justifyContent:'flex-start'}} >
-       
-        <ReferenceSection />
+        <div className="Resources-div" display='flex' style={{minHeight:'10px',justifyContent:'flex-start'}} 
+        >
+        <ReferenceSection bookid={state.bookId} chapter={state.chapter} verse={state.verse} bookname={state.bookName}/>
         </div>
         {/* <Divider component="li"  />
         <li>
@@ -183,7 +184,7 @@ const TokenizationPage = () => {
         <div className="source-div" style={{height:'150px'}}>
         <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
         </div>
-       
+        </div>
       </List>
     );
   }
