@@ -16,7 +16,6 @@ import {
 } from "react-router-dom"
 import TokenizationPage from './Component/Tokenization/TokenizationPage';
 
-
 function App() {
   const [login,setLogin] = useState()
   useEffect(()=>{
@@ -49,7 +48,7 @@ function App() {
       <Route exact path="/rcl">
         <RCL />
       </Route>
-      <Route exact path="/alignment-editor">
+      <Route exact path="/alignment-editor/:id">
         <AlignmentEditor setlogin={setLogin}/>
       </Route>
     </div>
