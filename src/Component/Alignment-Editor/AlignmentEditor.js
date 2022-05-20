@@ -14,8 +14,10 @@ import { Avatar } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useParams } from 'react-router-dom'
 
 const AlignmentEditor = (props) => {
+    const {id} = useParams();
     const history = useHistory();
     const [source, setSource] = useState([]);
     const [target, setTarget] = useState([]);
@@ -24,56 +26,89 @@ const AlignmentEditor = (props) => {
     const [link, setLink] = useState([])
     const [translation, setTranslation] = useState([])
     useEffect(() => {
-        axios.get("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=57001001&use_translation_memory=true&include_phrases=true&include_stopwords=false", {
+
+        // with sentence api 
+        axios.get("https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100009&with_draft=true", {
             headers: {
-                "app": "Autographa",
-                "Authorization": `Bearer ${localStorage.getItem('token')
-                    }`
+                "Authorization": `Bearer ${
+                    localStorage.getItem('token')
+                }`,
+                "app": "Autographa"
             }
         }).then((item) => {
-            console.log(item)
-            let dataArr = []
-            let dataFill = {}
+            let word = {}
+            let wordArr = []
             let sourceArr = []
             let sourceLink = {}
-            item.data.map((item, index) => {
-                if (Object.keys(item.translations).length === 0) {
-                    dataFill = {
-                        "token": item.token,
-                        "class": "token",
-                        "occurrences": item.occurrences,
-                        "translation": ""
+            for (let i = 0; i < item.data[id-1].draftMeta.length; i++) {
+
+                //temp
+                // if(item.data[0].sentence.slice(item.data[0].draftMeta[i][0][0], item.data[0].draftMeta[i][0][1])!==" "){
+                //close
+                console.log(item.data[id-1].draftMeta[i][2])
+                if (item.data[id-1].draftMeta[i][2]!=="confirmed" && item.data[id-1].draftMeta[i][2]!=="suggestion") {
+                    word = {
+                        "token": item.data[id-1].sentence.slice(item.data[id-1].draftMeta[i][0][0], item.data[id-1].draftMeta[i][0][1]),
+                        "occurrences": [
+                            {
+                                "sentenceId": item.data[id-1].sentenceId,
+                                "offset": [
+                                    item.data[id-1].draftMeta[i][0][0],
+                                    item.data[id-1].draftMeta[i][0][1]
+                                ]
+                            }
+                        ],
+                        "translation":"",
+                        "class": "token"
                     }
                 } else {
-                    let translationArr = Object.keys(item.translations)
-                    console.log(translationArr)
                     sourceLink = {
-                        "source": [`source${index}`],
-                        "target": [`target${index}`],
-                        "token": item.token,
-                        "occurrences": item.occurrences,
-                        "translation": translationArr
+                        "source": [`source${i}`],
+                        "target": [`target${i}`],
+                        "token": item.data[id-1].sentence.slice(item.data[id-1].draftMeta[i][0][0], item.data[id-1].draftMeta[i][0][1]),
+                        "occurrences": [
+                            {
+                                "sentenceId": item.data[id-1].sentenceId,
+                                "offset": [
+                                    item.data[id-1].draftMeta[i][0][0],
+                                    item.data[id-1].draftMeta[i][0][1]
+                                ]
+                            }
+                        ],
+                        "translation": [item.data[id-1].draft.slice(item.data[id-1].draftMeta[i][1][0], item.data[id-1].draftMeta[i][1][1])]
 
                     }
-                    dataFill = {
-                        "token": item.token,
-                        "class": "token set-token",
-                        "occurrences": item.occurrences,
-                        "translation": translationArr
+                    word = {
+                        "token": item.data[id-1].sentence.slice(item.data[id-1].draftMeta[i][0][0], item.data[id-1].draftMeta[i][0][1]),
+                        "occurrences": [
+                            {
+                                "sentenceId": item.data[id-1].sentenceId,
+                                "offset": [
+                                    item.data[id-1].draftMeta[i][0][0],
+                                    item.data[id-1].draftMeta[i][0][1]
+                                ]
+                            }
+                        ],
+                        "translation": [item.data[id-1].draft.slice(item.data[id-1].draftMeta[i][1][0], item.data[id-1].draftMeta[i][1][1])],
+                        "class": "token set-token"
                     }
                     sourceArr = [
                         ...sourceArr,
                         sourceLink
                     ]
-                } dataArr = [
-                    ...dataArr,
-                    dataFill
+                } 
+            // remove
+        // }
+        // remove
+                wordArr = [
+                    ... wordArr,
+                    word
                 ]
-            })
+            }
+            setData(wordArr)
             setLink(sourceArr)
-            setData(dataArr)
         }).catch((error) => {
-            if (error.response.status === 401) {
+                        if (error.response.status === 401) {
                 alert("Login expired, please try again")
                 const token = localStorage.getItem('token')
                 axios.get("https://api.vachanengine.org/redoc#operation/logout_v2_user_logout_get", {
@@ -89,6 +124,75 @@ const AlignmentEditor = (props) => {
                 }).catch((err) => { })
             }
         })
+
+
+
+        // with token api 
+        // axios.get("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=57001001&use_translation_memory=true&include_phrases=true&include_stopwords=false", {
+        //     headers: {
+        //         "app": "Autographa",
+        //         "Authorization": `Bearer ${localStorage.getItem('token')
+        //             }`
+        //     }
+        // }).then((item) => {
+        //     console.log(item)
+        //     let dataArr = []
+        //     let dataFill = {}
+        //     let sourceArr = []
+        //     let sourceLink = {}
+        //     item.data.map((item, index) => {
+        //         if (Object.keys(item.translations).length === 0) {
+        //             dataFill = {
+        //                 "token": item.token,
+        //                 "class": "token",
+        //                 "occurrences": item.occurrences,
+        //                 "translation": ""
+        //             }
+        //         } else {
+        //             let translationArr = Object.keys(item.translations)
+        //             console.log(translationArr)
+        //             sourceLink = {
+        //                 "source": [`source${index}`],
+        //                 "target": [`target${index}`],
+        //                 "token": item.token,
+        //                 "occurrences": item.occurrences,
+        //                 "translation": translationArr
+
+        //             }
+        //             dataFill = {
+        //                 "token": item.token,
+        //                 "class": "token set-token",
+        //                 "occurrences": item.occurrences,
+        //                 "translation": translationArr
+        //             }
+        //             sourceArr = [
+        //                 ...sourceArr,
+        //                 sourceLink
+        //             ]
+        //         } dataArr = [
+        //             ...dataArr,
+        //             dataFill
+        //         ]
+        //     })
+        //     setLink(sourceArr)
+        //     setData(dataArr)
+        // }).catch((error) => {
+        //     if (error.response.status === 401) {
+        //         alert("Login expired, please try again")
+        //         const token = localStorage.getItem('token')
+        //         axios.get("https://api.vachanengine.org/redoc#operation/logout_v2_user_logout_get", {
+        //             headers: {
+        //                 'content-type': 'application/json',
+        //                 'token': token
+        //             }
+        //         }).then(() => {
+        //             props.setlogin(false)
+        //             localStorage.removeItem('token')
+        //             localStorage.removeItem('login')
+        //             history.push("/")
+        //         }).catch((err) => { })
+        //     }
+        // })
     }, [line])
     const addSource = (e, index) => {
         let id = e.target.id;
@@ -389,22 +493,24 @@ const AlignmentEditor = (props) => {
             }
             delete link[i].source;
             delete link[i].target;
+            link[i].translation = link[i].translation[0];
         }
         console.log(link);
-        // axios.put("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008",link,{
-        //     headers: {
-        //         "app": "Autographa",
-        //         "content-type": "application/json",
-        //         "Authorization": `Bearer ${
-        //             localStorage.getItem('token')
-        //         }`
-        //     }
-        // }).then((item)=>{
-        //     alert("translation saved");
-        //     console.log(item);
-        // }).catch((error)=>{
-        //     console.log(error)
-        // })
+        axios.put("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100009",link,{
+            headers: {
+                "app": "Autographa",
+                "content-type": "application/json",
+                "Authorization": `Bearer ${
+                    localStorage.getItem('token')
+                }`
+            }
+        }).then((item)=>{
+            alert("translation saved");
+            window.location.reload();
+            console.log(item);
+        }).catch((error)=>{
+            console.log(error)
+        })
     }
     return (
         <>
