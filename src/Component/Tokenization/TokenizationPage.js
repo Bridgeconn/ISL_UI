@@ -8,7 +8,8 @@ import List from '@material-ui/core/List';
 // import Pagination from './Pagination';
 //import Chip from '@mui/material/Chip';
  import ReferenceSection from './ReferenceSection';
- import RCL from "./RCL";
+//  import RCL from "./RCL";
+import AlignmentEditor from '../Alignment-Editor/AlignmentEditor';
 
 // import Tokenization from '../Tokenization';
 // import SourceText from '../SourceText';
@@ -167,7 +168,8 @@ const TokenizationPage = () => {
         </li> 
        
          <div className="sign-div" style={{minHeight:'200px',marginTop:'20px'}}>
-         <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
+           <AlignmentEditor  bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
+         {/* <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/> */}
         
         </div>
         {/* <Divider component="li" />

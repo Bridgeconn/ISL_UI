@@ -44,7 +44,7 @@ const Navbar = (props) => {
         <Toolbar>
           <Typography variant="h6" className={classes.title} align="left">
         <Link to="/" className={styles["redirectLink"]}>
-        Autographa-SignLanguage
+       Sign Language Tool
           </Link>
           </Typography>
           {

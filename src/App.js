@@ -7,15 +7,8 @@ import {useEffect, useState} from 'react';
 import CreateProject from "./Component/Project/CreateProject";
 import ViewProject from "./Component/Project/ViewProject";
 import RCL from "./Component/Tokenization/RCL"
-<<<<<<< HEAD
-<<<<<<< HEAD
 import AlignmentEditor from './Component/Alignment-Editor/AlignmentEditor';
 
-=======
->>>>>>> b7d4d8b (rcl updated)
-=======
-import AlignmentEditor from './Component/Tokenization/AlignmentEditor';
->>>>>>> d0fa5c1 (alignment editor added)
 
 import {
   BrowserRouter as Router,
@@ -56,18 +49,9 @@ function App() {
       <Route exact path="/rcl">
         <RCL />
       </Route>
-<<<<<<< HEAD
-<<<<<<< HEAD
       <Route exact path="/alignment-editor/:id">
         <AlignmentEditor setlogin={setLogin}/>
       </Route>
-=======
->>>>>>> b7d4d8b (rcl updated)
-=======
-      <Route exact path="/alignment-editor">
-        <AlignmentEditor />
-      </Route>
->>>>>>> d0fa5c1 (alignment editor added)
     </div>
     </Switch>
     </Router>

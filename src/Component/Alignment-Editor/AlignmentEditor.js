@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 import "../../Stylesheet/alignment.css"
 import linkImg from "../../Assets/link.png"
 import unlinkImg from "../../Assets/unlink.png"
 import LineTo from "react-lineto";
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import LinkIcon from '@material-ui/icons/Link';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
-import { Avatar } from "@material-ui/core";
+import {Avatar} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useParams } from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {BIBLES_ABBRV_INDEX} from '../Tokenization/Resources/BooksOfTheBible'
 
 const AlignmentEditor = (props) => {
@@ -26,12 +26,16 @@ const AlignmentEditor = (props) => {
     const [line, setLine] = useState(false)
     const [link, setLink] = useState([])
     const [translation, setTranslation] = useState([])
+    const bookName = props.bookid;
+    const chapter = props.chapter.padStart(3, '0');
+    const verse = props.verse.padStart(3, '0');;
+    const BookCode = BIBLES_ABBRV_INDEX[bookName];
+    const sentenceId = parseInt((BookCode + chapter + verse));
+    console.log(sentenceId, bookName, chapter, verse, BookCode)
     useEffect(() => {
         getData();
-    }, [line])
-    const getData = () =>{
-        
-        // with sentence api 
+    }, [sentenceId])
+    const getData = () => { // with sentence api
         axios.get("https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100009&with_draft=true", {
             headers: {
                 "Authorization": `Bearer ${
@@ -40,79 +44,84 @@ const AlignmentEditor = (props) => {
                 "app": "Autographa"
             }
         }).then((item) => {
-            let word = {}
-            let wordArr = []
-            let sourceArr = []
-            let sourceLink = {}
-            for (let i = 0; i < item.data[id-1].draftMeta.length; i++) {
+            for (let loop1 = 0; loop1 < item.data.length; loop1++) {
+                if (item.data[loop1].sentenceId == sentenceId) {
+                    // console.log("aaaaaaaaaaaaaaa",item.data[i])
+                    let selectedObj = item.data[loop1]
+                    let word = {}
+                    let wordArr = []
+                    let sourceArr = []
+                    let sourceLink = {}
+                    // console.log("bbbbbbbbbbbbbbbbbbbbb",item.data[i].draftMeta.length)
+                    for (let loop2 = 0; loop2 < selectedObj.draftMeta.length; loop2++) {
+                    // console.log("cccccccccccccccccccccccccc",item.data[j].draftMeta)
+                    console.log(selectedObj.draftMeta)
+                        if (selectedObj.draftMeta[loop2][2] !== "confirmed" && selectedObj.draftMeta[loop2][2] !== "suggestion") {
+                            word = {
+                                "token": selectedObj.sentence.slice(selectedObj.draftMeta[loop2][0][0], selectedObj.draftMeta[loop2][0][1]),
+                                "occurrences": [
+                                    {
+                                        "sentenceId": selectedObj.sentenceId,
+                                        "offset": [
+                                            selectedObj.draftMeta[loop2][0][0],
+                                            selectedObj.draftMeta[loop2][0][1]
+                                        ]
+                                    }
+                                ],
+                                "translation": "",
+                                "class": "token"
+                            }
+                        } else {
+                            sourceLink = {
+                                "source": [`source${loop2}`],
+                                "target": [`target${loop2}`],
+                                "token": selectedObj.sentence.slice(selectedObj.draftMeta[loop2][0][0], selectedObj.draftMeta[loop2][0][1]),
+                                "occurrences": [
+                                    {
+                                        "sentenceId": selectedObj.sentenceId,
+                                        "offset": [
+                                            selectedObj.draftMeta[loop2][0][0],
+                                            selectedObj.draftMeta[loop2][0][1]
+                                        ]
+                                    }
+                                ],
+                                "translation": [selectedObj.draft.slice(selectedObj.draftMeta[loop2][1][0], selectedObj.draftMeta[loop2][1][1])]
 
-                //temp
-                // if(item.data[0].sentence.slice(item.data[0].draftMeta[i][0][0], item.data[0].draftMeta[i][0][1])!==" "){
-                //close
-                console.log(item.data[id-1].draftMeta[i][2])
-                if (item.data[id-1].draftMeta[i][2]!=="confirmed" && item.data[id-1].draftMeta[i][2]!=="suggestion") {
-                    word = {
-                        "token": item.data[id-1].sentence.slice(item.data[id-1].draftMeta[i][0][0], item.data[id-1].draftMeta[i][0][1]),
-                        "occurrences": [
-                            {
-                                "sentenceId": item.data[id-1].sentenceId,
-                                "offset": [
-                                    item.data[id-1].draftMeta[i][0][0],
-                                    item.data[id-1].draftMeta[i][0][1]
-                                ]
                             }
-                        ],
-                        "translation":"",
-                        "class": "token"
-                    }
-                } else {
-                    sourceLink = {
-                        "source": [`source${i}`],
-                        "target": [`target${i}`],
-                        "token": item.data[id-1].sentence.slice(item.data[id-1].draftMeta[i][0][0], item.data[id-1].draftMeta[i][0][1]),
-                        "occurrences": [
-                            {
-                                "sentenceId": item.data[id-1].sentenceId,
-                                "offset": [
-                                    item.data[id-1].draftMeta[i][0][0],
-                                    item.data[id-1].draftMeta[i][0][1]
-                                ]
+                            word = {
+                                "token": selectedObj.sentence.slice(selectedObj.draftMeta[loop2][0][0], selectedObj.draftMeta[loop2][0][1]),
+                                "occurrences": [
+                                    {
+                                        "sentenceId": selectedObj.sentenceId,
+                                        "offset": [
+                                            selectedObj.draftMeta[loop2][0][0],
+                                            selectedObj.draftMeta[loop2][0][1]
+                                        ]
+                                    }
+                                ],
+                                "translation": [selectedObj.draft.slice(selectedObj.draftMeta[loop2][1][0], selectedObj.draftMeta[loop2][1][1])],
+                                "class": "token set-token"
                             }
-                        ],
-                        "translation": [item.data[id-1].draft.slice(item.data[id-1].draftMeta[i][1][0], item.data[id-1].draftMeta[i][1][1])]
-
+                            sourceArr = [
+                                ... sourceArr,
+                                sourceLink
+                            ]
+                        }
+                        // remove
+                        // }
+                        // remove
+                        wordArr = [
+                            ... wordArr,
+                            word
+                        ]
                     }
-                    word = {
-                        "token": item.data[id-1].sentence.slice(item.data[id-1].draftMeta[i][0][0], item.data[id-1].draftMeta[i][0][1]),
-                        "occurrences": [
-                            {
-                                "sentenceId": item.data[id-1].sentenceId,
-                                "offset": [
-                                    item.data[id-1].draftMeta[i][0][0],
-                                    item.data[id-1].draftMeta[i][0][1]
-                                ]
-                            }
-                        ],
-                        "translation": [item.data[id-1].draft.slice(item.data[id-1].draftMeta[i][1][0], item.data[id-1].draftMeta[i][1][1])],
-                        "class": "token set-token"
-                    }
-                    sourceArr = [
-                        ...sourceArr,
-                        sourceLink
-                    ]
-                } 
-            // remove
-        // }
-        // remove
-                wordArr = [
-                    ... wordArr,
-                    word
-                ]
+                    setData(wordArr)
+                    setLink(sourceArr)
+                    break;
+                }
             }
-            setData(wordArr)
-            setLink(sourceArr)
         }).catch((error) => {
-                        if (error.response.status === 401) {
+            if (error.response.status === 401) {
                 alert("Login expired, please try again")
                 const token = localStorage.getItem('token')
                 axios.get("https://api.vachanengine.org/redoc#operation/logout_v2_user_logout_get", {
@@ -125,13 +134,12 @@ const AlignmentEditor = (props) => {
                     localStorage.removeItem('token')
                     localStorage.removeItem('login')
                     history.push("/")
-                }).catch((err) => { })
+                }).catch((err) => {console.log(err)})
             }
         })
 
 
-
-        // with token api 
+        // with token api
         // axios.get("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100008&sentence_id_list=57001001&use_translation_memory=true&include_phrases=true&include_stopwords=false", {
         //     headers: {
         //         "app": "Autographa",
@@ -202,7 +210,7 @@ const AlignmentEditor = (props) => {
         let id = e.target.id;
         let name = e.target.innerHTML;
         let selectedElement = document.getElementById(id).classList
-        if (!selectedElement.contains("not-allowed-token")) {
+        if (! selectedElement.contains("not-allowed-token")) {
             if (selectedElement.contains("set-token")) {
                 setSource([])
                 setTarget([])
@@ -214,7 +222,7 @@ const AlignmentEditor = (props) => {
                         if (method[j] === id) {
                             link[i].source.map(item => {
                                 sourceArr = [
-                                    ...sourceArr, {
+                                    ... sourceArr, {
                                         "id": item,
                                         "name": document.getElementById(item).innerHTML
                                     }
@@ -222,17 +230,16 @@ const AlignmentEditor = (props) => {
                                 document.getElementById(item).classList.add("active-token")
                             })
                             link[i].target.map(item => {
-                                if(document.getElementById(item).tagName==="SELECT")
-                                {
+                                if (document.getElementById(item).tagName === "SELECT") {
                                     targetArr = [
-                                        ...targetArr, {
+                                        ... targetArr, {
                                             "id": item,
                                             "name": document.getElementById(item).value
                                         }
                                     ]
-                                }else{
+                                } else {
                                     targetArr = [
-                                        ...targetArr, {
+                                        ... targetArr, {
                                             "id": item,
                                             "name": document.getElementById(item).innerHTML
                                         }
@@ -257,7 +264,7 @@ const AlignmentEditor = (props) => {
                 for (let i = 0; i < source.length; i++) {
                     if (source[i].id !== id) {
                         arr = [
-                            ...arr,
+                            ... arr,
                             source[i]
                         ]
                     }
@@ -283,7 +290,7 @@ const AlignmentEditor = (props) => {
         let name = e.target.innerHTML;
         let type = e.target.nodeName
         let selectedElement = document.getElementById(id).classList
-        if (!selectedElement.contains("not-allowed-token")) {
+        if (! selectedElement.contains("not-allowed-token")) {
             if (selectedElement.contains("set-token")) {
                 setSource([])
                 setTarget([])
@@ -296,7 +303,7 @@ const AlignmentEditor = (props) => {
                             link[i].source.map(item => {
                                 console.log(item)
                                 sourceArr = [
-                                    ...sourceArr, {
+                                    ... sourceArr, {
                                         "id": item,
                                         "name": document.getElementById(item).innerHTML
                                     }
@@ -305,16 +312,16 @@ const AlignmentEditor = (props) => {
                             })
                             link[i].target.map(item => {
                                 console.log(item)
-                                if(type==="SELECT"){
+                                if (type === "SELECT") {
                                     targetArr = [
-                                        ...targetArr, {
+                                        ... targetArr, {
                                             "id": item,
                                             "name": document.getElementById(item).value
                                         }
                                     ]
-                                }else{
+                                } else {
                                     targetArr = [
-                                        ...targetArr, {
+                                        ... targetArr, {
                                             "id": item,
                                             "name": document.getElementById(item).innerHTML
                                         }
@@ -338,7 +345,7 @@ const AlignmentEditor = (props) => {
                 for (let i = 0; i < target.length; i++) {
                     if (target[i].id !== id) {
                         arr = [
-                            ...arr,
+                            ... arr,
                             target[i]
                         ]
                     }
@@ -370,17 +377,22 @@ const AlignmentEditor = (props) => {
                 if (token === "") {
                     token = data[index].token
                 } else {
-                    token = `${token} ${data[index].token}`
+                    token = `${token} ${
+                        data[index].token
+                    }`
                 }
                 if (occur === "") {
                     occur = data[index].occurrences
                 } else {
-                    occur = [...occur, data[index].occurrences]
+                    occur = [
+                        ... occur,
+                        data[index].occurrences
+                    ]
                 }
                 document.getElementById(source[i].id).classList.remove("active-token")
                 document.getElementById(source[i].id).classList.add("set-token")
                 sourceArray = [
-                    ...sourceArray,
+                    ... sourceArray,
                 ]
             }
             for (let i = 0; i < target.length; i++) {
@@ -388,24 +400,26 @@ const AlignmentEditor = (props) => {
                 if (translate === "") {
                     translate = data[index1].translation
                 } else {
-                    translate = `${translate} ${data[index1].translation}`
+                    translate = `${translate} ${
+                        data[index1].translation
+                    }`
                 }
                 document.getElementById(target[i].id).classList.remove("active-token")
                 document.getElementById(target[i].id).classList.add("set-token")
                 targetArray = [
-                    ...targetArray,
+                    ... targetArray,
                     target[i].id
                 ]
             }
             let newArr = [{
-                // source: sourceArray,
-                // target: targetArray,
-                "token": token,
-                "translation": translate,
-                "occurrences": occur,
-                "source": [source[0].id],
-                "target": [target[0].id]
-            }]
+                    // source: sourceArray,
+                    // target: targetArray,
+                    "token": token,
+                    "translation": translate,
+                    "occurrences": occur,
+                    "source": [source[0].id],
+                    "target": [target[0].id]
+                }]
             let arr = link.concat(newArr)
             setLink(arr)
             setSource([])
@@ -439,7 +453,7 @@ const AlignmentEditor = (props) => {
         link.filter((item, index) => {
             if (index != selectedIndex) {
                 newArr = [
-                    ...newArr,
+                    ... newArr,
                     item
                 ]
             }
@@ -500,7 +514,7 @@ const AlignmentEditor = (props) => {
             link[i].translation = link[i].translation[0];
         }
         console.log(link);
-        axios.put("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100009",link,{
+        axios.put("https://api.vachanengine.org/v2/autographa/project/tokens?project_id=100009", link, {
             headers: {
                 "app": "Autographa",
                 "content-type": "application/json",
@@ -508,11 +522,11 @@ const AlignmentEditor = (props) => {
                     localStorage.getItem('token')
                 }`
             }
-        }).then((item)=>{
+        }).then((item) => {
             alert("translation saved");
             window.location.reload();
             console.log(item);
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error)
         })
     }
@@ -529,8 +543,8 @@ const AlignmentEditor = (props) => {
                                     if (item.token !== "") {
                                         return (
                                             <span className={
-                                                item.class
-                                            }
+                                                    item.class
+                                                }
                                                 id={
                                                     `source${index}`
                                                 }
@@ -538,10 +552,10 @@ const AlignmentEditor = (props) => {
                                                     (e) => {
                                                         addSource(e, index)
                                                     }
-                                                }>
+                                            }>
                                                 {
-                                                    item.token
-                                                }</span>
+                                                item.token
+                                            }</span>
                                         )
                                     }
                                 })
@@ -551,72 +565,75 @@ const AlignmentEditor = (props) => {
                             <h3>Sign token</h3>
                             <div className="target-suggestions">
                                 {
-                                    data.map((item, index) => {
-                                        if (item.translation !== "") {
-                                            if (item.translation.length === 1) {
-                                                return (
-                                                    <span className={
+                                data.map((item, index) => {
+                                    if (item.translation !== "") {
+                                        if (item.translation.length === 1) {
+                                            return (
+                                                <span className={
                                                         item.class
                                                     }
-                                                        id={
-                                                            `target${index}`
+                                                    id={
+                                                        `target${index}`
+                                                    }
+                                                    onClick={
+                                                        (e) => {
+                                                            addTarget(e, index)
                                                         }
-                                                        onClick={
-                                                            (e) => {
-                                                                addTarget(e, index)
-                                                            }
-                                                        }>
-                                                        {
-                                                            item.translation
-                                                        } </span>
-                                                )
-                                            } else {
-                                                return (
-                                                    <select 
-                                                    defaultValue={item.translation[0]}
+                                                }>
+                                                    {
+                                                    item.translation
+                                                } </span>
+                                            )
+                                        } else {
+                                            return (
+                                                <select defaultValue={
+                                                        item.translation[0]
+                                                    }
                                                     className={
                                                         item.class
                                                     }
-                                                        id={
-                                                            `target${index}`
+                                                    id={
+                                                        `target${index}`
+                                                    }
+                                                    onChange={
+                                                        (e) => {
+                                                            addTarget(e, index)
                                                         }
-                                                        onChange={
-                                                            (e) => {
-                                                                addTarget(e, index)
-                                                            }}>
-                                                        {
-                                                            item.translation.map((item, index) => {
-                                                                return (
-                                                                    <option value={item} key={index}>{item}</option>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
-                                                    // <Select
-                                                    //     labelId="demo-simple-select-label"
-                                                    //     id="demo-simple-select"
-                                                    //     // defaultValue={item.translations[0]}
-                                                    //     autoWidth="true"
-                                                    //     value={"ashish"}
-                                                    //     // style={{
-                                                    //     //     width: "200px"
-                                                    //     // }}
-                                                    // // value={age}
-                                                    // // onChange={handleChange}
-                                                    // >
-                                                    //     {
-                                                    //         item.translation.map((item,index) => {
-                                                    //             return (
-                                                    //                 <MenuItem value={10} key={index}>{item}</MenuItem>
-                                                    //             )
-                                                    //         })
-                                                    //     }
-                                                    // </Select>
-                                                )
-                                            }
+                                                }>
+                                                    {
+                                                    item.translation.map((item, index) => {
+                                                        return (
+                                                            <option value={item}
+                                                                key={index}>
+                                                                {item}</option>
+                                                        )
+                                                    })
+                                                } </select>
+                                            // <Select
+                                            //     labelId="demo-simple-select-label"
+                                            //     id="demo-simple-select"
+                                            //     // defaultValue={item.translations[0]}
+                                            //     autoWidth="true"
+                                            //     value={"ashish"}
+                                            //     // style={{
+                                            //     //     width: "200px"
+                                            //     // }}
+                                            // // value={age}
+                                            // // onChange={handleChange}
+                                            // >
+                                            //     {
+                                            //         item.translation.map((item,index) => {
+                                            //             return (
+                                            //                 <MenuItem value={10} key={index}>{item}</MenuItem>
+                                            //             )
+                                            //         })
+                                            //     }
+                                            // </Select>
+                                            )
                                         }
-                                    })
-                                } </div>
+                                    }
+                                })
+                            } </div>
                             <div className="target-textbox">
                                 <TextField id="filled-basic" label="Enter Translation" variant="outlined"
                                     value={translation}
@@ -631,16 +648,16 @@ const AlignmentEditor = (props) => {
                                                 addWord()
                                             }
                                         }
-                                    } />
+                                    }/>
                                 <Avatar style={
-                                    { marginLeft: "20px" }
-                                }
+                                        {marginLeft: "20px"}
+                                    }
                                     onClick={
                                         () => {
                                             addWord()
                                         }
-                                    }>
-                                    <SendIcon />
+                                }>
+                                    <SendIcon/>
                                 </Avatar>
                             </div>
                         </div>
@@ -648,35 +665,35 @@ const AlignmentEditor = (props) => {
                     <div className="alignmentBox2">
                         <div className="source-box1">
                             {
-                                source.map((item, index) => {
-                                    return (
-                                        <span className="token line0"
-                                            id={
-                                                `setsource${index}`
-                                            }>
-                                            {
-                                                item.name
-                                            }</span>
-                                    )
-                                })
-                            } </div>
+                            source.map((item, index) => {
+                                return (
+                                    <span className="token line0"
+                                        id={
+                                            `setsource${index}`
+                                    }>
+                                        {
+                                        item.name
+                                    }</span>
+                                )
+                            })
+                        } </div>
                         {
-                            line ? <LineTo from="line0" to="line1" /> : null
-                        }
+                        line ? <LineTo from="line0" to="line1"/> : null
+                    }
                         <div className="target-box1">
                             {
-                                target.map((item, index) => {
-                                    return (
-                                        <span className="token line1"
-                                            id={
-                                                `settarget${index}`
-                                            }>
-                                            {
-                                                item.name
-                                            }</span>
-                                    )
-                                })
-                            } </div>
+                            target.map((item, index) => {
+                                return (
+                                    <span className="token line1"
+                                        id={
+                                            `settarget${index}`
+                                    }>
+                                        {
+                                        item.name
+                                    }</span>
+                                )
+                            })
+                        } </div>
                     </div>
                 </div>
                 <div className="control-panel">
@@ -689,8 +706,8 @@ const AlignmentEditor = (props) => {
                         }
                         id="linkButton"
                         style={
-                            { cursor: "not-allowed" }
-                        } />
+                            {cursor: "not-allowed"}
+                        }/>
                     <LinkOffIcon fontSize="large"
                         onClick={
                             () => {
@@ -699,19 +716,24 @@ const AlignmentEditor = (props) => {
                         }
                         id="unlinkButton"
                         style={
-                            { cursor: "not-allowed" }
-                        } />
+                            {cursor: "not-allowed"}
+                        }/>
                     <RefreshIcon fontSize="large" id="refreshButton"
                         style={
-                            { cursor: "not-allowed" }
+                            {cursor: "not-allowed"}
                         }
                         onClick={
                             () => {
                                 refreshState()
                             }
-                        } />
+                        }/>
                     <div className="final-submission-button">
-                        <Button variant="contained" color="primary" onClick={() => { submitTranslation() }}>
+                        <Button variant="contained" color="primary"
+                            onClick={
+                                () => {
+                                    submitTranslation()
+                                }
+                        }>
                             Final Submission
                         </Button>
                     </div>
