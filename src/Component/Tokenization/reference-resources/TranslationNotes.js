@@ -93,8 +93,7 @@ const TranslationNotes = (props) => {
       <div
         style={{
           overflowY: "scroll",
-          height: "95%",
-          marginTop: "2.5px",
+          height:'92%',marginTop:'10px',
           background: "#f7f1e3",
           color: "#40407a",
         }}

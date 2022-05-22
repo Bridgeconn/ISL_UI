@@ -77,7 +77,7 @@ useEffect(()=>{
     
       
     <div style={{height:'250px'}}>
-        <div style={{overflowY:'scroll',height:'95%',marginTop:'2.5px',background:'#f7f1e3',color:'#40407a'}}>
+        <div style={{overflowY:'scroll',height:'92%',marginTop:'10px',background:'#f7f1e3',color:'#40407a'}}>
        
   {data.filter(item => item.Reference ===chapterverse).map(filteredItem => (
     <div key={filteredItem.ID}>
