@@ -36,18 +36,15 @@ const Navbar = (props) => {
       localStorage.removeItem('login')
       history.push("/")
     }).catch((err)=>{
-      console.log("Error occured, Please try again")
     })
   }
-  console.log(props.login)
-
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title} align="left">
         <Link to="/" className={styles["redirectLink"]}>
-        Autographa-SignLanguage
+       Sign Language Tool
           </Link>
           </Typography>
           {

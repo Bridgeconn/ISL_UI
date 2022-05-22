@@ -6,6 +6,9 @@ import './App.css';
 import {useEffect, useState} from 'react';
 import CreateProject from "./Component/Project/CreateProject";
 import ViewProject from "./Component/Project/ViewProject";
+import RCL from "./Component/Tokenization/RCL"
+import AlignmentEditor from './Component/Alignment-Editor/AlignmentEditor';
+
 
 import {
   BrowserRouter as Router,
@@ -14,12 +17,10 @@ import {
 } from "react-router-dom"
 import TokenizationPage from './Component/Tokenization/TokenizationPage';
 
-
 function App() {
   const [login,setLogin] = useState()
   useEffect(()=>{
     setLogin(localStorage.getItem('login'))
-    console.log(login)
   },[login])
   return (
     <div className="App">
@@ -44,6 +45,12 @@ function App() {
       </Route>
       <Route exact path="/view-project">
         <ViewProject />
+      </Route>
+      <Route exact path="/rcl">
+        <RCL />
+      </Route>
+      <Route exact path="/alignment-editor/:id">
+        <AlignmentEditor setlogin={setLogin}/>
       </Route>
     </div>
     </Switch>
