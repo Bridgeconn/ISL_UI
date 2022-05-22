@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useParams } from 'react-router-dom'
+import {BIBLES_ABBRV_INDEX} from '../Tokenization/Resources/BooksOfTheBible'
 
 const AlignmentEditor = (props) => {
     const {id} = useParams();
@@ -26,7 +27,10 @@ const AlignmentEditor = (props) => {
     const [link, setLink] = useState([])
     const [translation, setTranslation] = useState([])
     useEffect(() => {
-
+        getData();
+    }, [line])
+    const getData = () =>{
+        
         // with sentence api 
         axios.get("https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100009&with_draft=true", {
             headers: {
@@ -193,7 +197,7 @@ const AlignmentEditor = (props) => {
         //         }).catch((err) => { })
         //     }
         // })
-    }, [line])
+    }
     const addSource = (e, index) => {
         let id = e.target.id;
         let name = e.target.innerHTML;
@@ -518,7 +522,7 @@ const AlignmentEditor = (props) => {
                 <div className="alignment-container">
                     <div className="alignmentBox1">
                         <div className="source-box">
-                            <h3>Source</h3>
+                            <h3>English word</h3>
                             <div></div>
                             <div> {
                                 data.map((item, index) => {
@@ -544,7 +548,7 @@ const AlignmentEditor = (props) => {
                             } </div>
                         </div>
                         <div className="target-box">
-                            <h3>Target</h3>
+                            <h3>Sign token</h3>
                             <div className="target-suggestions">
                                 {
                                     data.map((item, index) => {
