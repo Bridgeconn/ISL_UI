@@ -22,7 +22,7 @@ const bibleRefDefaultStyle = {
 };
 
 const chapterVerseSeparatorStyle = {
-  paddingTop: "10px",
+  paddingTop: "25px",
   paddingRight: "2px",
   fontWeight: "900",
   fontSize: "14px"
@@ -65,6 +65,7 @@ export function BibleReference(props) {
 
         <ReferenceSelector
           id="bible"
+          label="Book"
           matchName={true}
           options={bookList}
           initial={bookId}
@@ -82,6 +83,7 @@ export function BibleReference(props) {
 
         <ReferenceSelector
           id="chapter"
+          label="Chapter"
           options={chapterList}
           initial={chapter}
           onChange={onChangeChapter}
@@ -94,6 +96,7 @@ export function BibleReference(props) {
 
         <ReferenceSelector
           id="verse"
+          label="Verse"
           options={verseList}
           initial={verse}
           onChange={onChangeVerse}

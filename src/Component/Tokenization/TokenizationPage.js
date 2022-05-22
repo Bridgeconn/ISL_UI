@@ -90,11 +90,11 @@ const TokenizationPage = () => {
     const initialVerse = "";
     // select colors
      //const grey = ""; // a shade of grey
-    const blue = "#576574"; // a shade of blue
+    //const blue = "#576574"; // a shade of blue
      const white = "#FFFFFF";
-     //const black = "#000000";
+     const black = "#000000";
     // const style = {}; // use defaults
-    const style = { color: white, background: blue }; // set forground and background colors
+    const style = { color: black, background: white }; // set forground and background colors
    
     function onChange(bookId, chapter, verse) {
         console.log(`\n### Reference changed to ${bookId} - ${chapter}:${verse}\n\n`);
@@ -154,7 +154,7 @@ const TokenizationPage = () => {
         >
         <ReferenceSection bookid={state.bookId} chapter={state.chapter} verse={state.verse} bookname={state.bookName}/>
         </div>
-        {/* <Divider component="li"  />
+        <Divider component="li"  />
         <li>
           <Typography
             className={classes.dividerFullWidth}
@@ -162,13 +162,14 @@ const TokenizationPage = () => {
             display="block"
             variant="caption"
           >
-            <b>Sign Pane</b>
+            <b>Alignment Editor</b>
           </Typography>
-        </li> */}
+        </li> 
        
-        {/* <div className="sign-div" style={{height:'200px'}}>
+         <div className="sign-div" style={{minHeight:'200px',marginTop:'20px'}}>
+         <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
         
-        </div> */}
+        </div>
         {/* <Divider component="li" />
         <li>
           <Typography
@@ -182,7 +183,6 @@ const TokenizationPage = () => {
         </li> */}
        <Divider component="li" />
         <div className="source-div" style={{height:'150px'}}>
-        <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
         </div>
         </div>
       </List>

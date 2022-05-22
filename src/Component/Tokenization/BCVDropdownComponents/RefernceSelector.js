@@ -83,6 +83,7 @@ export function ReferenceSelector(props) {
     inputProps,
     usePopperWidth,
     matcher,
+    label
   } = props;
 
   const initialSelectionKey = initial || ( options.length && options[0].key ) || '';
@@ -236,6 +237,7 @@ export function ReferenceSelector(props) {
           <TextField
             {...applyStylesToInput(params, style)}
             InputProps={{ ...params.InputProps, ...inputProps }}
+            label={`${label}`} 
           />
         )
       }}

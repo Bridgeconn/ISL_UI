@@ -103,7 +103,7 @@ const ReferenceSection = (props) => {
         <>
  <div className='View-menu' style={{display:'flex'}}>  
 <div style={{width:'auto', border:'2px solid #5352ed', background:'#f1f2f6'}}>
-    <Menu buttonLabel='View'  menuItems={menuItems} />
+    <Menu buttonLabel='View Resources'  menuItems={menuItems} />
     </div>
 </div>
 <div className="flex-container" style={{display:'flex',flexWrap: 'wrap',marginBottom:'10px'}}>
@@ -119,7 +119,7 @@ const ReferenceSection = (props) => {
     <Box border={1} p={2} m={.5} style={{width:'30%',height:'250px',maxWidth:'395px',background:'#2C3A47',color:'#F8EFBA'}}>
 
     <div style={{display:'flex',justifyContent:'space-between'}}>
-    <div style={{width:'200px'}}> 
+    <div style={{width:'250px'}}> 
     <p>Other Bible</p>
     </div>
 
@@ -154,7 +154,7 @@ const ReferenceSection = (props) => {
   {commentaryStatus && (
     <Box border={1} p={2} m={.5} style={{width:'30%',height:'250px',maxWidth:'395px',background:'#2C3A47',color:'#F8EFBA'}}>
         <div style={{display:'flex',justifyContent:'space-between'}}>
-          <div style={{width:'200px'}}>
+          <div style={{width:'250px'  ,justifyContent:'center'}}>
           <p>Commentary</p>
           </div>
           <div style={{background:'#f5f6fa',width:'auto',height:'auto'}}>

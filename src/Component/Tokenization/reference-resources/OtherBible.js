@@ -31,7 +31,7 @@ useEffect(()=>{
 },[version,bookid,chapter,verse])
     return ( 
 
-        <div style={{maxHeight:'70%',marginTop:'2.5px',background:'#f7f1e3',color:'#40407a'}}>
+        <div style={{height:'180px',marginTop:'2.5px',background:'#f7f1e3',color:'#40407a'}}>
             
     {obverse && (<div><p><br/>[ {bookname} - chapter {chapter} : verse {verse} ]  </p> <p>{obverse}</p><br/></div>) } 
     
