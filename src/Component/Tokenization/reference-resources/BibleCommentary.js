@@ -25,7 +25,7 @@ useEffect(()=>{
 },[comver,bookid,chapter,verse])
     return ( 
 
-         <div style={{overflowY:'scroll',maxHeight:'70%',marginTop:'2.5px',background:'#f7f1e3',color:'#40407a'}}>
+         <div style={{overflowY:'scroll',maxHeight:'180px',marginTop:'16px',background:'#f7f1e3',color:'#40407a'}}>
     {Parser(comment)}
     
     </div>
