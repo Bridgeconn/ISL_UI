@@ -6,7 +6,6 @@ import './App.css';
 import {useEffect, useState} from 'react';
 import CreateProject from "./Component/Project/CreateProject";
 import ViewProject from "./Component/Project/ViewProject";
-import RCL from "./Component/Tokenization/RCL"
 import AlignmentEditor from './Component/Alignment-Editor/AlignmentEditor';
 
 
@@ -16,6 +15,8 @@ import {
   Switch
 } from "react-router-dom"
 import TokenizationPage from './Component/Tokenization/TokenizationPage';
+import UploadProjectBook from './Component/Project/UploadProjectBook';
+import UploadUsfm from './Component/Project/UploadUsfm';
 
 function App() {
   const [login,setLogin] = useState()
@@ -46,9 +47,12 @@ function App() {
       <Route exact path="/view-project">
         <ViewProject />
       </Route>
-      <Route exact path="/rcl">
-        <RCL />
+      <Route exact path="/add-book">
+        <UploadUsfm />
       </Route>
+      {/* <Route exact path="/rcl">
+        <RCL />
+      </Route> */}
       <Route exact path="/alignment-editor/:id">
         <AlignmentEditor setlogin={setLogin}/>
       </Route>

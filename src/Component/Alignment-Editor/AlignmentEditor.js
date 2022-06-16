@@ -63,8 +63,7 @@ const AlignmentEditor = (props) => {
         }
     }, [sentenceId])
     const getData = () => { // with sentence api
-        console.log("!2222222222")
-        axios.get("https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100009&with_draft=true", {
+        axios.get("https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100005&with_draft=true", {
             headers: {
                 "Authorization": `Bearer ${
                     localStorage.getItem('token')
@@ -566,7 +565,7 @@ const AlignmentEditor = (props) => {
                 <div className="alignment-container">
                     <div className="alignmentBox1">
                         <div className="source-box">
-                            <h3>English word</h3>
+                            <h3>English Bible Text</h3>
                             <div></div>
                             <div> {
                                 data.map((item, index) => {
@@ -592,7 +591,7 @@ const AlignmentEditor = (props) => {
                             } </div>
                         </div>
                         <div className="target-box">
-                            <h3>Sign token</h3>
+                            <h3>Sign Token Sequence</h3>
                             <div className="target-suggestions">
                                 {
                                 data.map((item, index) => {
