@@ -25,6 +25,7 @@ const AlignmentEditor = (props) => {
     const [data, setData] = useState([]);
     const [line, setLine] = useState(false)
     const [link, setLink] = useState([])
+    const [isSuggestionDone,setIsSuggestionDone] = useState(false);
     const [translation, setTranslation] = useState([])
     const bookName = props.bookid;
     const chapter = props.chapter.padStart(3, '0');
@@ -32,8 +33,34 @@ const AlignmentEditor = (props) => {
     const BookCode = BIBLES_ABBRV_INDEX[bookName];
     const sentenceId = parseInt((BookCode + chapter + verse));
     console.log(sentenceId, bookName, chapter, verse, BookCode)
+    useEffect(()=>{
+    },[])
     useEffect(() => {
-        getData();
+        if(isSuggestionDone===false)
+        {
+        props.setloading(true)
+        fetch("https://api.vachanengine.org/v2/autographa/project/suggestions?project_id=100009",
+        {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${
+                    localStorage.getItem('token')
+                }`,
+                "app": "Autographa"
+            }
+        }) .then(response => response.json())
+        .then((data) =>{
+            // props.setloading(false)
+            console.log("asshishsishishsihsi")
+            setIsSuggestionDone(true)
+            getData();
+        })
+        .catch((error)=>{console.log(error);})
+        }else{
+        props.setloading(true)
+            console.log("!23")
+            getData();
+        }
     }, [sentenceId])
     const getData = () => { // with sentence api
         axios.get("https://api.vachanengine.org/v2/autographa/project/sentences?project_id=100005&with_draft=true", {
@@ -44,6 +71,7 @@ const AlignmentEditor = (props) => {
                 "app": "Autographa"
             }
         }).then((item) => {
+            console.log("12345555",item)
             for (let loop1 = 0; loop1 < item.data.length; loop1++) {
                 if (item.data[loop1].sentenceId == sentenceId) {
                     // console.log("aaaaaaaaaaaaaaa",item.data[i])
@@ -120,6 +148,7 @@ const AlignmentEditor = (props) => {
                     break;
                 }
             }
+        props.setloading(false)
         }).catch((error) => {
             if (error.response.status === 401) {
                 alert("Login expired, please try again")

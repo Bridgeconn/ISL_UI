@@ -10,7 +10,7 @@ import List from '@material-ui/core/List';
  import ReferenceSection from './ReferenceSection';
 //  import RCL from "./RCL";
 import AlignmentEditor from '../Alignment-Editor/AlignmentEditor';
-
+import LoadingPage from '../LoadingAnimation/LoadingPage';
 // import Tokenization from '../Tokenization';
 // import SourceText from '../SourceText';
 // import Pagination from '../Pagination';
@@ -82,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TokenizationPage = () => {
+  const [isLoading,setIsLoading] = useState(true)
     const classes = useStyles();
     //BCV dropdown related code
     // const supportedBooks = null; // if empty array or null then all books available
@@ -118,8 +119,14 @@ const TokenizationPage = () => {
 //ends here
 
     return (
+      <>
       <List className={classes.root}>
-        
+      {
+        isLoading?
+        <LoadingPage />
+        :
+        null
+      }
         {/* <div  className="bible-pagination" style={{display:'flex'}}>
             <Pagination />
         </div> */}
@@ -168,7 +175,7 @@ const TokenizationPage = () => {
         </li> 
        
          <div className="sign-div" style={{minHeight:'200px',marginTop:'20px'}}>
-           <AlignmentEditor  bookid={state.bookId} chapter={state.chapter} verse={state.verse}/>
+           <AlignmentEditor  bookid={state.bookId} chapter={state.chapter} verse={state.verse} setloading={setIsLoading}/>
          {/* <RCL bookid={state.bookId} chapter={state.chapter} verse={state.verse}/> */}
         
         </div>
@@ -188,6 +195,7 @@ const TokenizationPage = () => {
         </div>
         </div>
       </List>
+      </>
     );
   }
  
