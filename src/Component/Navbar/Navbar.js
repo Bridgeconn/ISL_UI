@@ -44,7 +44,7 @@ const Navbar = (props) => {
         <Toolbar>
           <Typography variant="h6" className={classes.title} align="left">
         <Link to="/" className={styles["redirectLink"]}>
-       Sign Language Tool
+       Machine Assisted Sign Translation
           </Link>
           </Typography>
           {
